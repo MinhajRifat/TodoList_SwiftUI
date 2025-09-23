@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ItemModel: Identifiable {
+struct ItemModel: Identifiable, Codable {//Codable so that transform data
     let id: String
     let title: String
     let isCompleted: Bool
