@@ -2,18 +2,25 @@
 import SwiftUI
 
 struct Listview: View {
+
+    @EnvironmentObject var listViewModel: ListViewModel
     
-    @State var items: [ItemModel] = [
-        ItemModel(title: "This is the first item!", isCompleted: false),
-        ItemModel(title: "This is the second item!", isCompleted: true),
-        ItemModel(title: "This is the third item!", isCompleted: false)
-    ]
+
     
     var body: some View {
         List{
-            ForEach(items){ item in
+            ForEach(listViewModel.items){ item in
                 ListRowView(item: item)
+                    .onTapGesture {
+                        withAnimation{
+                            listViewModel.updateItem(item: item)
+                        }
+                    }
             }
+            //dlt function to delete items in the list
+            .onDelete(perform: listViewModel.deleteItem)
+            //onMove function to sort usind slide
+            .onMove(perform: listViewModel.moveItem)
         }
         .listStyle(PlainListStyle())
         .navigationTitle(Text("Todo List📝"))
@@ -21,12 +28,16 @@ struct Listview: View {
             leading: EditButton(),
             trailing: NavigationLink("Add", destination: AddView()))
     }
+    
+    
+  
 }
 
 #Preview {
     NavigationView{
         Listview()
     }
+    .environmentObject(ListViewModel())
 }
 
 

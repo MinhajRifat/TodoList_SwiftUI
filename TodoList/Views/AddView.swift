@@ -1,7 +1,14 @@
 import SwiftUI
 
 struct AddView: View {
+    
+    @Environment(\.presentationMode) var presentationMode // for go back from add more items
+    @EnvironmentObject var listViewModel: ListViewModel
     @State var textFieldText: String = ""
+    
+    @State var alertTitle: String = ""
+    @State var showwAlert: Bool = false
+    
     var body: some View {
         ScrollView{
             VStack{
@@ -11,7 +18,7 @@ struct AddView: View {
                     .background(Color.gray.opacity(15/100))
                     .cornerRadius(10)
                 Button(action:{
-                    
+                    saveButtonPressed()
                 }, label: {
                     Text("Save")
                         .font(.headline)
@@ -25,6 +32,30 @@ struct AddView: View {
                     .padding()
             }
         }
+        .navigationTitle("Add more items 🖊️")
+        .alert(isPresented: $showwAlert, content: getAlert)
+    }
+    func saveButtonPressed(){
+        if textIsAppropriate(){
+            listViewModel.addNewItem(title: textFieldText)
+            presentationMode.wrappedValue.dismiss()
+        }
+        
+    }
+    
+    func textIsAppropriate() -> Bool {
+        if textFieldText.count < 3 {
+            showwAlert.toggle()
+            alertTitle = "You task character must be atleast 3"
+            return false
+        }else{
+            return true
+        }
+    }
+    
+    func getAlert() -> Alert{
+        
+        return Alert(title: Text (alertTitle))
     }
 }
 
@@ -33,4 +64,5 @@ struct AddView: View {
         AddView()
 
     }
+    .environmentObject(ListViewModel())
 }
