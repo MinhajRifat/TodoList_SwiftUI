@@ -9,6 +9,7 @@ struct TodoListApp: App {
                 Listview()
 
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .environmentObject(listViewModel)
             //Now list view model an as well as other views have access to this list view model
         }

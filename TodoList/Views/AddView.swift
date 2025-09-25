@@ -15,7 +15,7 @@ struct AddView: View {
                 TextField("Write your task...", text: $textFieldText)
                     .padding(.horizontal)
                     .frame(height: 50)
-                    .background(Color.gray.opacity(15/100))
+                    .background(Color (UIColor.secondarySystemBackground))
                     .cornerRadius(10)
                 Button(action:{
                     saveButtonPressed()
